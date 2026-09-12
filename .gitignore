@@ -1,0 +1,9 @@
+node_modules/
+dist/
+target/
+gen/
+.env
+.DS_Store
+*.log
+*.p8
+*.p12
