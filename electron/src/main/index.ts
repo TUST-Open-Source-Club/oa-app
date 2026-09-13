@@ -89,7 +89,19 @@ function createWindow(): void {
   })
 }
 
-/** 托盘 + 未读提示（后续接 ntfy/WS 未读数）。 */
+/** 同步未读角标：托盘提示 + Dock/任务栏（macOS/Linux）。 */
+function updateBadge(count: number): void {
+  const tip = count > 0 ? `社团 OA（${count} 条未读）` : '社团 OA'
+  tray?.setToolTip(tip)
+  if (process.platform === 'darwin') {
+    tray?.setTitle(count > 0 ? String(count) : '')
+    app.badgeCount = count
+  } else if (process.platform === 'linux') {
+    app.badgeCount = count
+  }
+}
+
+/** 托盘：打开/切换服务器/退出 + 未读角标。 */
 function createTray(): void {
   const icon = nativeImage.createEmpty()
   tray = new Tray(icon)
@@ -119,6 +131,9 @@ ipcMain.handle('notify', async (_event, title: string, body: string) => {
   if (Notification.isSupported()) {
     new Notification({ title, body }).show()
   }
+})
+ipcMain.handle('badge:set', (_event, count: number) => {
+  updateBadge(Math.max(0, Math.trunc(count)))
 })
 
 app.whenReady().then(async () => {

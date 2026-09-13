@@ -11,5 +11,6 @@ contextBridge.exposeInMainWorld('clubOA', {
   setServer: (baseUrl: string) => ipcRenderer.invoke('server:save', baseUrl),
   clearServer: () => ipcRenderer.invoke('server:clear'),
   validate: (baseUrl: string) => ipcRenderer.invoke('server:validate', baseUrl),
-  notify: (title: string, body: string) => ipcRenderer.invoke('notify', title, body)
+  notify: (title: string, body: string) => ipcRenderer.invoke('notify', title, body),
+  setUnreadCount: (count: number) => ipcRenderer.invoke('badge:set', count)
 })
