@@ -1,9 +1,9 @@
-# club-oa-app
+# club-oa-app（客户端壳集合）
 
-社团 OA 多端客户端（Tauri v2 + Vue 3，Windows/macOS/Linux/Android/iOS，独立仓库，挂载于主仓库 `apps/app/`）。
+| 目录 | 形态 | 技术 |
+| --- | --- | --- |
+| `android-shell/` | Android App（PWA 壳） | Kotlin + WebView + 厂商推送 SDK |
+| `harmony-shell/` | HarmonyOS NEXT App（PWA 壳，规划中） | ArkTS + ArkWeb + Push Kit |
+| `electron/` | 桌面端（Windows/macOS/Linux，规划中） | Electron + 共享 Vue 前端 |
 
-> 状态：待初始化。
-
-## 许可证
-
-本项目采用 **AGPL-3.0-or-later** 许可证，详见 [LICENSE](LICENSE)。
+共同要求（见需求 13.1.1）：**服务器地址不硬编码**，首次启动配置并校验 OIDC discovery，支持随时切换。
