@@ -1,3 +1,4 @@
+import router from '@ohos.router';
 import web_webview from '@ohos.web.webview';
 import { ServerConfig } from '../utils/ServerConfig';
 
@@ -32,11 +33,17 @@ struct WebPage {
           })
           .javaScriptProxy({
             object: {
+              platform: (): string => 'harmony',
               vendor: (): string => 'huawei',
-              pushToken: (): string | null => null
+              pushToken: (): string | null => null,
+              switchServer: (): void => {
+                ServerConfig.clear(getContext(this)).then(() => {
+                  router.replaceUrl({ url: 'pages/Index' });
+                });
+              }
             },
             name: 'ClubOA',
-            methodList: ['vendor', 'pushToken'],
+            methodList: ['platform', 'vendor', 'pushToken', 'switchServer'],
             controller: this.controller
           })
       } else {

@@ -98,6 +98,10 @@ class MainActivity : AppCompatActivity() {
             userAgentString = "$userAgentString ClubOA-Android/0.1.0"
         }
         web.addJavascriptInterface(object {
+            /** Web 侧查询平台标识。 */
+            @JavascriptInterface
+            fun platform(): String = "android"
+
             /** Web 侧查询厂商（用于选择推送 SDK）。 */
             @JavascriptInterface
             fun vendor(): String = PushBridge().vendor()
@@ -105,6 +109,15 @@ class MainActivity : AppCompatActivity() {
             /** Web 侧查询厂商 token（SDK 接入前为空）。 */
             @JavascriptInterface
             fun pushToken(): String? = PushBridge().token()
+
+            /** Web 侧请求切换服务器：清除配置并回到设置页（需求 AND-010）。 */
+            @JavascriptInterface
+            fun switchServer() {
+                runOnUiThread {
+                    ServerConfig.clear(this@MainActivity)
+                    showSetup()
+                }
+            }
         }, "ClubOA")
         web.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
